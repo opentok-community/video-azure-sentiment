@@ -32,8 +32,8 @@ project’s API key along with the session ID and token you generated.
 **Important notes:**
 
 - You can continue to get the session ID and token values from your Account during testing and
-  development, but before you go into production you must set up a server. To learn how to setup a
-  server, visit [OpenTok Basics](https://tokbox.com/developer/guides/basics/) in the Developer Documentation.
+  development, but before you go into production you must set up a server. To learn more,
+  visit [OpenTok Basics](https://tokbox.com/developer/guides/basics/) in the Developer Documentation.
 
 ## Getting Help
 
