@@ -77,75 +77,19 @@ function initializeSession() {
   });
 }
 
-// Loop through all <video> elements and call 
-// sendToAzure
-function processImages() {
-  var videos = document.getElementsByTagName('video');
-  for (v = 0; v < (videos.length - 1); v++) {
-    sendToAzure(videos[v], v);
-  }
-}
+function assignEmoji(emojiClass, index) {
+  var widgets = document.getElementsByClassName('OT_widget-container');
+  emotions.push(emojiClass);
 
-// Gets a <video> element and draws it to a new 
-// canvas object. Then creates a jpeg blob from that 
-// canvas and sends to Azure Face API to get emotion
-// data.
-function sendToAzure(video, index) {
-  var sentiments = document.getElementsByClassName('sentiment');
-  var usedListItems = document.getElementsByClassName('used');
+  var sentimentDiv = document.createElement("div");
+  sentimentDiv.classList.add("sentiment");
+  sentimentDiv.classList.add("em");
+  sentimentDiv.classList.add(emojiClass);
 
-  // Remove any existing sentiment & emotion objects
-  if (sentiments.length > 0) {
-    for (s = 0; s < sentiments.length; s++) {
-      sentiments[s].remove();
-    }
-  }
-  if (usedListItems.length > 0) {
-    for (l = 0; l < usedListItems.length; l++) {
-      usedListItems[l].classList.remove('used');
-    }
-  }
-  emotions = [];
+  widgets[index].appendChild(sentimentDiv);
 
-  // Get the stream object associated with this 
-  // <video> element.
-  var stream = streams[index];
-
-  var canvas = document.createElement("canvas");
-  canvas.height = stream.videoDimensions.height;
-  canvas.width = stream.videoDimensions.width;
-
-  var ctx = canvas.getContext("2d");
-  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-  var dataURL = canvas.toDataURL("image/jpeg", 0.8);
-  var blob = dataURItoBlob(dataURL);
-  var fd = new FormData(document.forms[0]);
-  fd.append("canvasImage", blob);
-
-  // Perform the REST API call.
-  var uriBase = `${azure_face_api_endpoint}/face/v1.0/detect`;
-
-  // Request parameters.
-  var params = 'returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=emotion';
-
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', `${uriBase}?${params}`);
-  xhr.responseType = 'json';
-  xhr.setRequestHeader('Content-Type', 'application/octet-stream');
-  xhr.setRequestHeader("Ocp-Apim-Subscription-Key", azure_face_api_subscription_key);
-
-  xhr.send(blob);
-
-  xhr.onload = () => {
-
-    if (xhr.status == 200) {
-      processEmotion(xhr.response, index);
-    } else {
-      var errorString = `(${xhr.status}) ${xhr.statusText}`;
-      alert(errorString);
-    }
-  }
+  const legendEl = document.getElementsByName(emojiClass);
+  legendEl[0].classList.add('used');
 }
 
 function processEmotion(faces, index) {
@@ -187,19 +131,75 @@ function processEmotion(faces, index) {
   }
 }
 
-function assignEmoji(emojiClass, index) {
-  var widgets = document.getElementsByClassName('OT_widget-container');
-  emotions.push(emojiClass);
+// Gets a <video> element and draws it to a new
+// canvas object. Then creates a jpeg blob from that
+// canvas and sends to Azure Face API to get emotion
+// data.
+function sendToAzure(video, index) {
+  // Get the stream object associated with this
+  // <video> element.
+  var stream = streams[index];
 
-  var sentimentDiv = document.createElement("div");
-  sentimentDiv.classList.add("sentiment");
-  sentimentDiv.classList.add("em");
-  sentimentDiv.classList.add(emojiClass);
+  var canvas = document.createElement("canvas");
+  canvas.height = stream.videoDimensions.height;
+  canvas.width = stream.videoDimensions.width;
 
-  widgets[index].appendChild(sentimentDiv);
+  var ctx = canvas.getContext("2d");
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  const legendEl = document.getElementsByName(emojiClass);
-  legendEl[0].classList.add('used');
+  var dataURL = canvas.toDataURL("image/jpeg", 0.8);
+  var blob = dataURItoBlob(dataURL);
+  var fd = new FormData(document.forms[0]);
+  fd.append("canvasImage", blob);
+
+  // Perform the REST API call.
+  var uriBase = `${azure_face_api_endpoint}/face/v1.0/detect`;
+
+  // Request parameters.
+  var params = 'returnFaceId=true&returnFaceLandmarks=false&returnFaceAttributes=emotion';
+
+  const xhr = new XMLHttpRequest();
+  xhr.open('POST', `${uriBase}?${params}`);
+  xhr.responseType = 'json';
+  xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+  xhr.setRequestHeader("Ocp-Apim-Subscription-Key", azure_face_api_subscription_key);
+
+  xhr.send(blob);
+
+  xhr.onload = () => {
+
+    if (xhr.status == 200) {
+      processEmotion(xhr.response, index);
+    } else {
+      var errorString = `(${xhr.status}) ${xhr.statusText}`;
+      alert(errorString);
+    }
+  }
+}
+
+// Reset emojis and loop through all <video> elements and call
+// sendToAzure
+function processImages() {
+  emotions = [];
+  var sentiments = document.getElementsByClassName('sentiment');
+  var usedListItems = document.getElementsByClassName('used');
+  var videos = document.getElementsByTagName('video');
+
+  // Remove any existing sentiment & emotion objects
+  if (sentiments.length > 0) {
+    for (s = 0; s < sentiments.length; s++) {
+      sentiments[s].remove();
+    }
+  }
+  if (usedListItems.length > 0) {
+    for (l = 0; l < usedListItems.length; l++) {
+      usedListItems[l].classList.remove('used');
+    }
+  }
+
+  for (v = 0; v < (videos.length - 1); v++) {
+    sendToAzure(videos[v], v);
+  }
 }
 
 function dataURItoBlob(dataURI) {
