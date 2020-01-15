@@ -14,15 +14,17 @@ If you're new to OpenTok, you can [sign up for a Tokbox account](https://tokbox.
 
 2. Edit the /js/config.js file and set values each of the variables.
 
-| Variable                        | Description |
-| ------------------------------- | ----------- |
-| OPENTOK_API_KEY                 |             |
-| OPENTOK_SESSION_ID              |             |
-| OPENTOK_TOKEN                   |             |
-| AZURE_FACE_API_SUBSCRIPTION_KEY |             |
-| AZURE_FACE_API_ENDPOINT         |             |
+| Variable                        | Description                                                     |
+| ------------------------------- | --------------------------------------------------------------- |
+| OPENTOK_API_KEY                 | Project specific API Key found in your [TokBox Account]         |
+| OPENTOK_SESSION_ID              | Session ID generated in your [TokBox Account] (Read more below) |
+| OPENTOK_TOKEN                   | Token generated in your [TokBox Account] (Read more below)      |
+| AZURE_FACE_API_SUBSCRIPTION_KEY | Subscription Key associated with your Azure Face API service    |
+| AZURE_FACE_API_ENDPOINT         | Uri endpoint associated with your Azure Face API service        |
 
-To do this, log into your [TokBox Account](https://tokbox.com/account), and either create
+### OpenTok Session ID & Token
+
+To generate an OpenTok Session ID & Token, log into your [TokBox Account], and either create
 a new project or use an existing project. Then go to your project page and scroll down to the
 **Project Tools** section. From there, you can generate a session ID and token manually. Use the
 project’s API key along with the session ID and token you generated.
@@ -30,7 +32,8 @@ project’s API key along with the session ID and token you generated.
 **Important notes:**
 
 - You can continue to get the session ID and token values from your Account during testing and
-  development, but before you go into production you must set up a server.
+  development, but before you go into production you must set up a server. To learn how to setup a
+  server, visit [OpenTok Basics](https://tokbox.com/developer/guides/basics/) in the Developer Documentation.
 
 ## Getting Help
 
@@ -45,3 +48,5 @@ We love to hear from you so if you have questions, comments or find a bug in the
 - Check out the Developer Documentation at <https://tokbox.com/developer/>
 
 <!-- add links to the api reference, other documentation, related blog posts, whatever someone who has read this far might find interesting :) -->
+
+[tokbox account]: https://tokbox.com/account
