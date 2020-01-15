@@ -1,12 +1,21 @@
 # Video Azure Sentiment Analysis
 
-<!-- Add a paragraph about the project. What does it do? Who is it for? Is it actively supported? Your reader just clicked on a random link from another web page and has no idea what Nexmo is ... -->
+This sample application can be used to create an OpenTok video session with multiple participants. Each
+participant will display in a different panel. Any participant can click the "Analyze" button to submit
+the other participants to the Azure Face API to determine their sentiment. Once Face API returns the request,
+an emoji will be added to the participants video panel denoting their sentiment.
 
 ## Welcome to OpenTok
 
 <!-- change "github-repo" at the end of the link to be the name of your repo, this helps us understand which projects are driving signups so we can do more stuff that developers love -->
 
 If you're new to OpenTok, you can [sign up for a Tokbox account](https://tokbox.com/account/user/signup?utm_source=DEV_REL&utm_medium=github&utm_campaign=video-azure-sentiment) and get some free credit to get you started.
+
+## Prerequisites
+
+- A [TokBox Account]
+- An Azure Account with [Face API Cognitive Service](https://azure.microsoft.com/en-us/services/cognitive-services/face/)
+- Optional: [Ngrok](https://ngrok.com/) for test deployment
 
 ## Configuring the application
 
